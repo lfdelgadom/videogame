@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Videojuego educativo retro de 8 bits para practicar decisiones seguras de evacuación ante incendios y sismos en el trabajo (SG-SST).">
+  <meta name="theme-color" content="#121826">
+  <title>Misión Evacuación 8-Bit: Cada decisión cuenta</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' shape-rendering='crispEdges'%3E%3Crect width='16' height='16' fill='%231f8a4c'/%3E%3Crect x='3' y='7' width='8' height='2' fill='%23fff'/%3E%3Crect x='9' y='5' width='2' height='6' fill='%23fff'/%3E%3Crect x='11' y='6' width='1' height='4' fill='%23fff'/%3E%3Crect x='12' y='7' width='1' height='2' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido principal</a>
+
+  <!-- ===================== ENCABEZADO ===================== -->
+  <header class="app-header" id="appHeader" hidden>
+    <div class="brand">
+      <span class="logo-badge" id="logoBadge" aria-hidden="true">MO</span>
+      <div class="brand-text">
+        <p class="game-title" id="headerTitle">MISIÓN EVACUACIÓN 8-BIT</p>
+        <p class="game-subtitle"><span id="headerSubtitle">Cada decisión cuenta</span> · <span id="headerOrg">Mi organización</span></p>
+      </div>
+    </div>
+    <div class="status-chips">
+      <button class="chip" id="chipSound" type="button" data-action="toggle-sound" aria-pressed="true">
+        <span aria-hidden="true">♪</span> Sonido: <strong id="chipSoundValue">Sí</strong>
+      </button>
+      <button class="chip" id="chipMotion" type="button" data-action="toggle-motion" aria-pressed="false">
+        <span aria-hidden="true">≈</span> Movimiento: <strong id="chipMotionValue">Normal</strong>
+      </button>
+      <span class="chip chip-static" id="chipBest"><span aria-hidden="true">★</span> Mejor: <strong id="chipBestValue">—</strong></span>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- 1. PANTALLA DE CARGA -->
+    <section class="screen screen-center" id="screen-loading" aria-labelledby="h-loading">
+      <div class="panel loading-panel">
+        <h1 class="pixel-title" id="h-loading" tabindex="-1">MISIÓN EVACUACIÓN 8-BIT</h1>
+        <p class="loading-text">CARGANDO MISIÓN…</p>
+        <div class="loading-bar" id="loadingBar" role="progressbar" aria-label="Progreso de carga" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+          <span id="loadingFill"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. BIENVENIDA -->
+    <section class="screen screen-center" id="screen-welcome" hidden aria-labelledby="h-welcome">
+      <div class="panel hero">
+        <canvas id="welcomeArt" class="welcome-art" width="960" height="240" role="img" aria-label="Ilustración pixelada: una persona avanza por un corredor hacia una señal de salida y el punto de encuentro."></canvas>
+        <h1 class="hero-title" id="h-welcome" tabindex="-1">MISIÓN EVACUACIÓN <span class="accent">8-BIT</span></h1>
+        <p class="hero-subtitle">CADA DECISIÓN CUENTA</p>
+        <p class="hero-org" id="welcomeOrg">Mi organización</p>
+        <p class="lead">Practica cómo reconocer alarmas, identificar peligros, seguir rutas de evacuación y actuar con seguridad ante incendios y sismos. Aquí la calidad de tus decisiones vale más que la velocidad.</p>
+        <div class="notice-box">
+          <h2 class="notice-title"><span aria-hidden="true">⚠</span> Aviso educativo</h2>
+          <p>Este videojuego es una herramienta educativa y complementaria. <strong>No reemplaza</strong> el plan de emergencias de la organización, los simulacros presenciales, la capacitación institucional, las instrucciones de los brigadistas, los procedimientos internos ni las recomendaciones de las autoridades competentes.</p>
+        </div>
+        <button class="btn btn-primary btn-xl" type="button" data-action="goto" data-target="notice">Continuar <span aria-hidden="true">▶</span></button>
+      </div>
+    </section>
+
+    <!-- 3. AVISO EDUCATIVO Y DE USO -->
+    <section class="screen screen-center" id="screen-notice" hidden aria-labelledby="h-notice">
+      <div class="panel panel-narrow">
+        <h1 class="screen-title" id="h-notice" tabindex="-1">Aviso educativo y de uso</h1>
+        <p class="callout">Este videojuego es una herramienta educativa de apoyo. Las decisiones, rutas, puntos de encuentro y procedimientos deben ser revisados y adaptados al plan de prevención, preparación y respuesta ante emergencias vigente en cada organización.</p>
+        <h2 class="sub-title">Este contenido no reemplaza:</h2>
+        <ul class="pixel-list">
+          <li>El plan de emergencias de la organización.</li>
+          <li>Los simulacros presenciales.</li>
+          <li>La capacitación institucional.</li>
+          <li>Las instrucciones de los brigadistas.</li>
+          <li>Los procedimientos internos.</li>
+          <li>Las recomendaciones de las autoridades competentes.</li>
+        </ul>
+        <p class="callout callout-soft">Los niveles obtenidos en este videojuego son reconocimientos educativos y no constituyen una certificación oficial en Seguridad y Salud en el Trabajo ni acreditan al participante como brigadista.</p>
+        <p class="small-note">Privacidad: el juego no solicita ni envía datos personales. Solo guarda en este navegador tu historial de partidas, tus preferencias y, si lo deseas, un alias.</p>
+        <div class="button-row">
+          <button class="btn btn-primary btn-xl" type="button" data-action="goto" data-target="menu">Entiendo, ir al menú <span aria-hidden="true">▶</span></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. MENÚ PRINCIPAL -->
+    <section class="screen" id="screen-menu" hidden aria-labelledby="h-menu">
+      <div class="panel">
+        <h1 class="screen-title" id="h-menu" tabindex="-1">Menú principal</h1>
+        <p class="menu-greeting" id="menuGreeting">Selecciona una opción para comenzar.</p>
+        <nav aria-label="Menú principal">
+          <ul class="menu-grid">
+            <li><button class="btn btn-primary btn-menu" type="button" data-action="goto" data-target="mode"><span class="btn-icon" aria-hidden="true">▶</span><span>Jugar</span></button></li>
+            <li><button class="btn btn-menu" type="button" data-action="choose-mode" data-mode="training"><span class="btn-icon" aria-hidden="true">✎</span><span>Modo entrenamiento</span></button></li>
+            <li><button class="btn btn-menu" type="button" data-action="choose-mode" data-mode="simulation"><span class="btn-icon" aria-hidden="true">▦</span><span>Modo simulación</span></button></li>
+            <li><button class="btn btn-menu" type="button" data-action="goto" data-target="howto"><span class="btn-icon" aria-hidden="true">?</span><span>Cómo jugar</span></button></li>
+            <li><button class="btn btn-menu" type="button" data-action="goto" data-target="history"><span class="btn-icon" aria-hidden="true">≡</span><span>Historial</span></button></li>
+            <li><button class="btn btn-menu" type="button" data-action="goto" data-target="settings"><span class="btn-icon" aria-hidden="true">⚙</span><span>Configuración</span></button></li>
+            <li><button class="btn btn-menu" type="button" data-action="goto" data-target="info"><span class="btn-icon" aria-hidden="true">i</span><span>Información</span></button></li>
+            <li><button class="btn btn-menu" type="button" data-action="goto" data-target="credits"><span class="btn-icon" aria-hidden="true">★</span><span>Créditos</span></button></li>
+            <li><button class="btn btn-menu btn-danger" type="button" data-action="reset-progress"><span class="btn-icon" aria-hidden="true">✕</span><span>Borrar progreso local</span></button></li>
+          </ul>
+        </nav>
+        <p class="small-note" id="menuStorageNote"></p>
+      </div>
+    </section>
+
+    <!-- 5. SELECCIÓN DE MODO -->
+    <section class="screen" id="screen-mode" hidden aria-labelledby="h-mode">
+      <div class="panel">
+        <h1 class="screen-title" id="h-mode" tabindex="-1">Selecciona el modo de juego</h1>
+        <div class="card-grid">
+          <article class="mode-card">
+            <h2 class="card-title"><span aria-hidden="true">✎</span> Modo entrenamiento</h2>
+            <p>Situaciones y preguntas de toma de decisiones. Sin límite de tiempo, con explicación después de cada respuesta y opción de volver a intentar.</p>
+            <ul class="pixel-list small">
+              <li>Ideal para aprender o repasar.</li>
+              <li>Funciona muy bien proyectado en grupo.</li>
+            </ul>
+            <button class="btn btn-primary" type="button" data-action="choose-mode" data-mode="training">Elegir entrenamiento</button>
+          </article>
+          <article class="mode-card">
+            <h2 class="card-title"><span aria-hidden="true">▦</span> Modo simulación</h2>
+            <p>Recorre un mapa retro de la instalación, identifica peligros, orienta a otras personas y llega al punto de encuentro tomando decisiones seguras.</p>
+            <ul class="pixel-list small">
+              <li>Movimiento por casillas, sin depender de reflejos.</li>
+              <li>Controles de teclado y táctiles.</li>
+            </ul>
+            <button class="btn btn-primary" type="button" data-action="choose-mode" data-mode="simulation">Elegir simulación</button>
+          </article>
+        </div>
+        <div class="button-row">
+          <button class="btn" type="button" data-action="goto" data-target="menu"><span aria-hidden="true">◀</span> Volver al menú</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. SELECCIÓN DE ESCENARIO -->
+    <section class="screen" id="screen-scenario" hidden aria-labelledby="h-scenario">
+      <div class="panel">
+        <h1 class="screen-title" id="h-scenario" tabindex="-1">Selecciona el escenario</h1>
+        <p id="scenarioIntro" class="lead-small">Elige la emergencia que quieres practicar.</p>
+        <form id="scenarioForm" novalidate>
+          <fieldset class="scenario-fieldset">
+            <legend class="sr-only" id="scenarioLegend">Escenarios disponibles</legend>
+            <div class="scenario-grid" id="scenarioOptions"></div>
+          </fieldset>
+          <p class="form-error" id="scenarioError" role="alert" hidden></p>
+          <div class="button-row">
+            <button class="btn btn-primary btn-xl" type="submit" id="startScenarioBtn">Comenzar <span aria-hidden="true">▶</span></button>
+            <button class="btn" type="button" data-action="goto" data-target="mode"><span aria-hidden="true">◀</span> Cambiar modo</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- 7. INSTRUCCIONES Y CONTROLES -->
+    <section class="screen" id="screen-howto" hidden aria-labelledby="h-howto">
+      <div class="panel">
+        <h1 class="screen-title" id="h-howto" tabindex="-1">Cómo jugar</h1>
+        <div class="two-col">
+          <div>
+            <h2 class="sub-title">Controles</h2>
+            <table class="pixel-table">
+              <caption class="sr-only">Controles del juego</caption>
+              <thead><tr><th scope="col">Acción</th><th scope="col">Teclado</th><th scope="col">Pantalla táctil</th></tr></thead>
+              <tbody>
+                <tr><td>Moverse</td><td><kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> o <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></td><td>Botones direccionales</td></tr>
+                <tr><td>Interactuar / inspeccionar</td><td><kbd>E</kbd>, <kbd>Espacio</kbd> o <kbd>Enter</kbd></td><td>Botón «Interactuar»</td></tr>
+                <tr><td>Elegir una opción</td><td><kbd>1</kbd>–<kbd>4</kbd>, o <kbd>Tab</kbd> + <kbd>Enter</kbd></td><td>Tocar la opción</td></tr>
+                <tr><td>Pausa</td><td><kbd>P</kbd> o <kbd>Esc</kbd></td><td>Botón «Pausa»</td></tr>
+                <tr><td>Cerrar ventanas</td><td><kbd>Esc</kbd></td><td>Botón de cierre</td></tr>
+              </tbody>
+            </table>
+            <h2 class="sub-title">Tu objetivo</h2>
+            <p>No se trata de escapar a cualquier costo. Debes reconocer la alarma, identificar peligros, usar una ruta segura, orientar a otras personas cuando sea seguro, reportarte en el punto de encuentro y no regresar sin autorización.</p>
+            <h2 class="sub-title">Sin vidas, con oportunidades</h2>
+            <p>Tienes tres oportunidades de corrección. Una decisión por reforzar resta puntos, aumenta el nivel de riesgo y te explica el error para que lo corrijas. Si agotas las oportunidades, vuelves al último punto seguro.</p>
+          </div>
+          <div>
+            <h2 class="sub-title">Puntuación (100 puntos)</h2>
+            <table class="pixel-table">
+              <caption class="sr-only">Distribución de la puntuación</caption>
+              <tbody>
+                <tr><td>Decisiones seguras</td><td class="num">40</td></tr>
+                <tr><td>Identificación de peligros</td><td class="num">25</td></tr>
+                <tr><td>Cumplimiento de la ruta y del procedimiento</td><td class="num">20</td></tr>
+                <tr><td>Orientación o apoyo a otras personas</td><td class="num">10</td></tr>
+                <tr><td>Tiempo de respuesta</td><td class="num">5</td></tr>
+              </tbody>
+            </table>
+            <h2 class="sub-title">Niveles</h2>
+            <ul class="pixel-list small">
+              <li>0–49: Aprendiz preventivo</li>
+              <li>50–69: Observador de riesgos</li>
+              <li>70–84: Guardián de la seguridad</li>
+              <li>85–94: Líder de evacuación</li>
+              <li>95–100: Brigadista retro</li>
+            </ul>
+            <p class="small-note">Los niveles obtenidos en este videojuego son reconocimientos educativos y no constituyen una certificación oficial en Seguridad y Salud en el Trabajo ni acreditan al participante como brigadista.</p>
+          </div>
+        </div>
+        <div class="button-row">
+          <button class="btn" type="button" data-action="back"><span aria-hidden="true">◀</span> Volver</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. MODO ENTRENAMIENTO -->
+    <section class="screen" id="screen-training" hidden aria-labelledby="h-training">
+      <div class="panel">
+        <div class="training-top">
+          <h1 class="screen-title" id="h-training" tabindex="-1">Entrenamiento</h1>
+          <div class="training-stats">
+            <p id="trainingProgressText" class="stat-text">Situación 1 de 12</p>
+            <div class="progress" aria-hidden="true"><span id="trainingProgressFill"></span></div>
+            <p class="stat-text">Puntos: <strong id="trainingScore">0</strong></p>
+          </div>
+        </div>
+        <article class="decision-card" id="trainingCard"></article>
+        <div class="button-row">
+          <button class="btn btn-small" type="button" data-action="exit-training"><span aria-hidden="true">◀</span> Salir al menú</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 9. MODO SIMULACIÓN -->
+    <section class="screen screen-sim" id="screen-sim" hidden aria-labelledby="h-sim">
+      <h1 class="sr-only" id="h-sim" tabindex="-1">Modo simulación</h1>
+      <div class="hud panel" id="hud">
+        <div class="hud-item hud-item-scenario"><span class="hud-label">Escenario</span><span class="hud-value" id="hudScenario">—</span></div>
+        <div class="hud-item"><span class="hud-label">Fase</span><span class="hud-value" id="hudPhase">—</span></div>
+        <div class="hud-item"><span class="hud-label">Puntos</span><span class="hud-value" id="hudScore">0</span></div>
+        <div class="hud-item"><span class="hud-label">Tiempo</span><span class="hud-value" id="hudTime">00:00</span></div>
+        <div class="hud-item hud-risk">
+          <span class="hud-label" id="riskLabel">Nivel de riesgo</span>
+          <div class="risk-bar" id="riskBar" role="meter" aria-labelledby="riskLabel" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-valuetext="Bajo">
+            <span id="riskFill"></span>
+          </div>
+          <span class="hud-value small" id="hudRiskText">Bajo</span>
+        </div>
+        <div class="hud-item"><span class="hud-label">Oportunidades</span><span class="hud-value" id="hudLives">◆◆◆ 3/3</span></div>
+        <button class="btn btn-small hud-pause" type="button" data-action="pause"><span aria-hidden="true">❚❚</span> Pausa</button>
+      </div>
+      <p class="objective" id="hudObjective" role="status">Objetivo: —</p>
+      <div class="sim-layout">
+        <div class="map-wrap" id="mapWrap" tabindex="0" aria-describedby="mapHelp">
+          <canvas id="gameCanvas" width="1536" height="1024" role="img" aria-label="Mapa de la instalación en vista superior."></canvas>
+        </div>
+        <aside class="sim-side" aria-label="Controles y leyenda">
+          <p class="interact-prompt" id="interactPrompt" role="status" aria-live="polite"></p>
+          <div class="controls" id="touchControls">
+            <div class="dpad" role="group" aria-label="Controles direccionales">
+              <button class="dpad-btn dpad-up" type="button" data-dir="up" aria-label="Mover arriba">▲</button>
+              <button class="dpad-btn dpad-left" type="button" data-dir="left" aria-label="Mover a la izquierda">◀</button>
+              <button class="dpad-btn dpad-right" type="button" data-dir="right" aria-label="Mover a la derecha">▶</button>
+              <button class="dpad-btn dpad-down" type="button" data-dir="down" aria-label="Mover abajo">▼</button>
+            </div>
+            <button class="btn btn-primary btn-interact" type="button" data-action="interact">Interactuar <kbd>E</kbd></button>
+          </div>
+          <details class="legend" open>
+            <summary>Leyenda del mapa</summary>
+            <ul>
+              <li><span class="sw sw-player" aria-hidden="true"></span> Tú (etiqueta «TÚ»)</li>
+              <li><span class="sw sw-exit" aria-hidden="true">→</span> Salida (verde con flecha)</li>
+              <li><span class="sw sw-sign" aria-hidden="true">↗</span> Señal de evacuación</li>
+              <li><span class="sw sw-stairs" aria-hidden="true"></span> Escalera de emergencia</li>
+              <li><span class="sw sw-elevator" aria-hidden="true">▲▼</span> Ascensor</li>
+              <li><span class="sw sw-hazard" aria-hidden="true">!</span> Peligro por inspeccionar</li>
+              <li><span class="sw sw-smoke" aria-hidden="true"></span> Humo / elementos caídos</li>
+              <li><span class="sw sw-closed" aria-hidden="true"></span> Paso cerrado</li>
+              <li><span class="sw sw-npc" aria-hidden="true">!</span> Persona que necesita atención</li>
+              <li><span class="sw sw-meet" aria-hidden="true">PE</span> Punto de encuentro</li>
+              <li><span class="sw sw-target" aria-hidden="true">▼</span> Indicador del objetivo</li>
+            </ul>
+          </details>
+          <p id="mapHelp" class="small-note">Flechas o WASD: mover · E, Espacio o Enter: interactuar · P o Esc: pausa. El objetivo actual aparece sobre el mapa.</p>
+        </aside>
+      </div>
+    </section>
+
+    <!-- 12. INFORME FINAL -->
+    <section class="screen" id="screen-report" hidden aria-labelledby="h-report">
+      <div class="panel report-panel" id="reportPanel">
+        <div class="report-head">
+          <div class="medal" id="reportMedal" aria-hidden="true"><span id="reportMedalText">★</span></div>
+          <div>
+            <h1 class="screen-title" id="h-report" tabindex="-1">Misión completada</h1>
+            <p class="report-scenario" id="reportScenario">—</p>
+          </div>
+        </div>
+        <div class="report-score">
+          <p class="big-score"><span id="reportScore">0</span><small>/100</small></p>
+          <p class="report-level">Nivel: <strong id="reportLevel">—</strong></p>
+        </div>
+        <div id="reportBody" class="report-body"></div>
+        <p class="small-note report-disclaimer">Los niveles obtenidos en este videojuego son reconocimientos educativos y no constituyen una certificación oficial en Seguridad y Salud en el Trabajo ni acreditan al participante como brigadista.</p>
+        <p class="small-note report-disclaimer">Este videojuego es una herramienta educativa de apoyo. Las decisiones, rutas, puntos de encuentro y procedimientos deben ser revisados y adaptados al plan de prevención, preparación y respuesta ante emergencias vigente en cada organización.</p>
+        <div class="button-row no-print">
+          <button class="btn btn-primary" type="button" data-action="play-again"><span aria-hidden="true">↻</span> Jugar nuevamente</button>
+          <button class="btn" type="button" data-action="review-answers"><span aria-hidden="true">☰</span> Revisar respuestas</button>
+          <button class="btn" type="button" data-action="print-report"><span aria-hidden="true">⎙</span> Imprimir / guardar PDF</button>
+          <button class="btn" type="button" data-action="download-report"><span aria-hidden="true">⇩</span> Descargar resumen (.txt)</button>
+          <button class="btn" type="button" data-action="goto" data-target="menu"><span aria-hidden="true">◀</span> Volver al menú</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 13. HISTORIAL LOCAL -->
+    <section class="screen" id="screen-history" hidden aria-labelledby="h-history">
+      <div class="panel">
+        <h1 class="screen-title" id="h-history" tabindex="-1">Historial local</h1>
+        <div class="history-summary" id="historySummary"></div>
+        <div class="table-scroll" id="historyTableWrap"></div>
+        <p class="small-note">El historial se guarda solo en este navegador. No incluye datos personales sensibles.</p>
+        <div class="button-row">
+          <button class="btn btn-danger" type="button" data-action="reset-progress">Borrar progreso local</button>
+          <button class="btn" type="button" data-action="back"><span aria-hidden="true">◀</span> Volver</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 14. CONFIGURACIÓN -->
+    <section class="screen" id="screen-settings" hidden aria-labelledby="h-settings">
+      <div class="panel panel-narrow">
+        <h1 class="screen-title" id="h-settings" tabindex="-1">Configuración</h1>
+        <div class="settings-list">
+          <div class="setting-row">
+            <div><p class="setting-name" id="lblSound">Sonido</p><p class="small-note">Efectos retro suaves. Todas las alertas tienen también un mensaje visual.</p></div>
+            <button class="switch" type="button" id="setSound" role="switch" aria-checked="true" aria-labelledby="lblSound" data-action="toggle-sound"><span class="switch-text">Sí</span></button>
+          </div>
+          <div class="setting-row">
+            <div><p class="setting-name" id="lblMotion">Reducir movimiento</p><p class="small-note">Desactiva la vibración del sismo, el humo animado y las transiciones.</p></div>
+            <button class="switch" type="button" id="setMotion" role="switch" aria-checked="false" aria-labelledby="lblMotion" data-action="toggle-motion"><span class="switch-text">No</span></button>
+          </div>
+          <div class="setting-row">
+            <div><label class="setting-name" for="setTheme">Tema visual</label><p class="small-note">Oscuro retro (alto contraste) o claro.</p></div>
+            <select id="setTheme" class="pixel-select">
+              <option value="dark">Oscuro retro</option>
+              <option value="light">Claro</option>
+            </select>
+          </div>
+          <div class="setting-row">
+            <div><label class="setting-name" for="setTextSize">Tamaño del texto</label><p class="small-note">«Grande» es útil al proyectar en una sala.</p></div>
+            <select id="setTextSize" class="pixel-select">
+              <option value="normal">Normal</option>
+              <option value="large">Grande</option>
+            </select>
+          </div>
+          <form class="setting-row setting-alias" id="aliasForm" novalidate>
+            <div class="alias-field">
+              <label class="setting-name" for="setAlias">Alias (opcional)</label>
+              <p class="small-note" id="aliasHelp">Hasta 20 caracteres: letras, números y espacios. No escribas documentos, correos ni teléfonos.</p>
+              <input id="setAlias" class="pixel-input" type="text" maxlength="20" autocomplete="off" aria-describedby="aliasHelp aliasError">
+              <p class="form-error" id="aliasError" role="alert" hidden></p>
+            </div>
+            <button class="btn btn-small" type="submit">Guardar alias</button>
+          </form>
+        </div>
+        <p class="small-note" id="storageStatus"></p>
+        <div class="button-row">
+          <button class="btn btn-danger" type="button" data-action="reset-progress">Borrar progreso local</button>
+          <button class="btn" type="button" data-action="back"><span aria-hidden="true">◀</span> Volver</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 15. INFORMACIÓN -->
+    <section class="screen" id="screen-info" hidden aria-labelledby="h-info">
+      <div class="panel">
+        <h1 class="screen-title" id="h-info" tabindex="-1">Información</h1>
+        <p class="callout">Este videojuego es una herramienta educativa de apoyo. Las decisiones, rutas, puntos de encuentro y procedimientos deben ser revisados y adaptados al plan de prevención, preparación y respuesta ante emergencias vigente en cada organización.</p>
+        <p>Su contenido es complementario: no reemplaza el plan de emergencias de la organización, los simulacros presenciales, la capacitación institucional, las instrucciones de los brigadistas, los procedimientos internos ni las recomendaciones de las autoridades competentes. Tampoco constituye asesoría legal ni certificación profesional.</p>
+        <h2 class="sub-title">Conceptos clave</h2>
+        <div class="info-grid">
+          <article class="info-card"><h3>¿Qué es una evacuación?</h3><p>Es el desplazamiento ordenado de las personas desde una zona de peligro hacia un lugar seguro, siguiendo un procedimiento previamente definido.</p></article>
+          <article class="info-card"><h3>Ruta de evacuación</h3><p>Es el camino señalizado, continuo y libre de obstáculos que conduce a una salida. Las instalaciones suelen tener rutas alternas por si la principal queda bloqueada.</p></article>
+          <article class="info-card"><h3>Punto de encuentro</h3><p>Es el lugar exterior definido por la organización donde las personas se reúnen, se reportan y esperan instrucciones. En esta simulación se llama: <strong id="infoMeetingPoint">Punto de encuentro principal</strong>.</p></article>
+          <article class="info-card"><h3>Señalización</h3><p>Las señales indican salidas, rutas, equipos de emergencia y peligros. Deben estar visibles y despejadas; seguirlas evita desorientarse cuando hay humo o tensión.</p></article>
+          <article class="info-card"><h3>Práctica digital y simulacro real</h3><p>Este juego ayuda a reflexionar sobre decisiones. El simulacro presencial permite recorrer las rutas reales, medir tiempos y coordinar con la brigada. Ambos se complementan; uno no sustituye al otro.</p></article>
+          <article class="info-card"><h3>Plan institucional</h3><p>Cada organización tiene su propio plan de prevención, preparación y respuesta ante emergencias. Ante cualquier diferencia, siempre prevalece el plan vigente y las instrucciones oficiales.</p></article>
+          <article class="info-card"><h3>Brigada de emergencias</h3><p>Es el grupo de personas entrenadas que orienta la evacuación, verifica áreas, apoya a quien lo necesita y coordina con los organismos de respuesta según el plan.</p></article>
+          <article class="info-card"><h3>Identificación de peligros</h3><p>Observar el entorno permite detectar condiciones inseguras: salidas obstruidas, objetos pesados en altura, cables sueltos o equipos de emergencia tapados. Reportarlas a tiempo previene incidentes.</p></article>
+          <article class="info-card"><h3>Conductas que aumentan el riesgo</h3><p>Correr sin control, usar el ascensor cuando el protocolo lo prohíbe, atravesar humo, regresar por objetos personales, ignorar a otras personas o abandonar el punto de encuentro sin avisar.</p></article>
+          <article class="info-card"><h3>Reporte de novedades</h3><p>Informar al responsable del punto de encuentro o a la brigada sobre personas que faltan, lesionados o daños observados permite actuar de forma rápida y coordinada.</p></article>
+        </div>
+        <h2 class="sub-title">Sobre el proyecto</h2>
+        <p>Recurso web estático hecho con HTML5, CSS3, JavaScript puro y Canvas 2D. Funciona sin instalaciones, sin servidores y sin conexión una vez cargado. Los contenidos son genéricos y configurables; la organización debe validarlos con su responsable del SG-SST antes de usarlos.</p>
+        <p>Canal de contacto configurado: <strong id="infoContact">Canal interno definido por la organización</strong>.</p>
+        <div class="button-row">
+          <button class="btn" type="button" data-action="back"><span aria-hidden="true">◀</span> Volver</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- 16. CRÉDITOS -->
+    <section class="screen" id="screen-credits" hidden aria-labelledby="h-credits">
+      <div class="panel panel-narrow">
+        <h1 class="screen-title" id="h-credits" tabindex="-1">Créditos</h1>
+        <dl class="credits-list">
+          <dt>Proyecto</dt><dd>Misión Evacuación 8-Bit: Cada decisión cuenta</dd>
+          <dt>Propósito</dt><dd>Recurso educativo de apoyo para capacitación en Seguridad y Salud en el Trabajo: evacuación, identificación de peligros y respuesta ante incendios y sismos.</dd>
+          <dt>Desarrollo</dt><dd>HTML5, CSS3, JavaScript puro y Canvas 2D. Gráficos pixelados dibujados por código y sonidos generados con Web Audio API.</dd>
+          <dt>Organización</dt><dd id="creditsOrg">Mi organización</dd>
+          <dt>Validación de contenidos</dt><dd>Debe realizarla el responsable del SG-SST de cada organización.</dd>
+          <dt>Licencia sugerida</dt><dd>Código bajo licencia MIT; contenidos educativos bajo CC BY 4.0.</dd>
+        </dl>
+        <div class="button-row">
+          <button class="btn" type="button" data-action="back"><span aria-hidden="true">◀</span> Volver</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================== MODALES ===================== -->
+
+  <!-- 11. Decisión y retroalimentación -->
+  <div class="modal-layer" id="modal-decision" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal panel" role="dialog" aria-modal="true" aria-labelledby="decisionTitle">
+      <div class="decision-card" id="decisionBody"></div>
+    </div>
+  </div>
+
+  <!-- 10. Pausa -->
+  <div class="modal-layer" id="modal-pause" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal panel modal-small" role="dialog" aria-modal="true" aria-labelledby="pauseTitle">
+      <h2 class="modal-title" id="pauseTitle" tabindex="-1">❚❚ Pausa</h2>
+      <p class="small-note">El tiempo está detenido.</p>
+      <div class="stack">
+        <button class="btn btn-primary" type="button" data-action="resume">Continuar</button>
+        <button class="btn" type="button" data-action="restart-scenario">Reiniciar escenario</button>
+        <button class="btn" type="button" data-action="show-controls">Ver controles</button>
+        <button class="btn" type="button" data-action="toggle-sound" id="pauseSoundBtn">Sonido: Sí</button>
+        <button class="btn btn-danger" type="button" data-action="quit-to-menu">Volver al menú principal</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 17. Confirmación -->
+  <div class="modal-layer" id="modal-confirm" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal panel modal-small" role="alertdialog" aria-modal="true" aria-labelledby="confirmTitle" aria-describedby="confirmMessage">
+      <h2 class="modal-title" id="confirmTitle" tabindex="-1">¿Confirmas?</h2>
+      <p id="confirmMessage"></p>
+      <div class="button-row">
+        <button class="btn btn-danger" type="button" id="confirmYes">Sí</button>
+        <button class="btn" type="button" id="confirmNo">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mensajes (inspecciones, diálogos, avisos) -->
+  <div class="modal-layer" id="modal-message" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal panel modal-medium" role="dialog" aria-modal="true" aria-labelledby="messageTitle">
+      <p class="tag" id="messageTag" hidden></p>
+      <h2 class="modal-title" id="messageTitle" tabindex="-1">Mensaje</h2>
+      <div id="messageBody" class="message-body"></div>
+      <div class="button-row">
+        <button class="btn btn-primary" type="button" id="messageOk">Continuar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revisión de respuestas -->
+  <div class="modal-layer" id="modal-review" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal panel modal-large" role="dialog" aria-modal="true" aria-labelledby="reviewTitle">
+      <h2 class="modal-title" id="reviewTitle" tabindex="-1">Revisión de respuestas</h2>
+      <ol class="review-list" id="reviewList"></ol>
+      <div class="button-row">
+        <button class="btn btn-primary" type="button" data-action="close-modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controles (desde la pausa) -->
+  <div class="modal-layer" id="modal-controls" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal panel modal-medium" role="dialog" aria-modal="true" aria-labelledby="controlsTitle">
+      <h2 class="modal-title" id="controlsTitle" tabindex="-1">Controles</h2>
+      <ul class="pixel-list">
+        <li><strong>Moverse:</strong> flechas o W, A, S, D (o botones direccionales).</li>
+        <li><strong>Interactuar o inspeccionar:</strong> E, Espacio o Enter (o botón «Interactuar»).</li>
+        <li><strong>Elegir una opción:</strong> teclas 1 a 4, o Tab y Enter.</li>
+        <li><strong>Pausa:</strong> P o Esc (o botón «Pausa»).</li>
+        <li><strong>Cerrar ventanas:</strong> Esc.</li>
+      </ul>
+      <p class="small-note">Acércate a personas u objetos marcados con «!» o «⚠». Cuando aparezca «Presiona E para interactuar», puedes inspeccionarlos.</p>
+      <div class="button-row">
+        <button class="btn btn-primary" type="button" data-action="close-modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Avisos visuales y regiones vivas para lectores de pantalla -->
+  <div class="toast-area" id="toastArea" aria-hidden="true"></div>
+  <div class="sr-only" id="livePolite" aria-live="polite" aria-atomic="true"></div>
+  <div class="sr-only" id="liveAssertive" aria-live="assertive" aria-atomic="true"></div>
+
+  <noscript>
+    <div class="noscript">Este videojuego necesita JavaScript activado en el navegador para funcionar.</div>
+  </noscript>
+
+  <script src="script.js"></script>
+</body>
+</html>
